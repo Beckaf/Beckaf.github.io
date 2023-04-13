@@ -1,0 +1,701 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.jpg">
+  <link rel="icon" href="/img/fluid.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Beck">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="最近遇到了两个源代码逆向题（太菜了所以只能做简单题 b01lersCTF2023-Quine源代码12345678910111213141516171819202122232425262728293031323334              #include&#x2F;*firt*&#x2F;&lt;stdio.h&gt;           #define&#x2F;*ah*&#x2F;      p&#x2F;**&#x2F;putchar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记两道源代码逆向题">
+<meta property="og:url" content="https://beckaf.github.io/2023/04/13/code/index.html">
+<meta property="og:site_name" content="Dreaming out aloud">
+<meta property="og:description" content="最近遇到了两个源代码逆向题（太菜了所以只能做简单题 b01lersCTF2023-Quine源代码12345678910111213141516171819202122232425262728293031323334              #include&#x2F;*firt*&#x2F;&lt;stdio.h&gt;           #define&#x2F;*ah*&#x2F;      p&#x2F;**&#x2F;putchar">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Beckaf/img@main/img/dog0.png">
+<meta property="article:published_time" content="2023-04-13T11:07:29.611Z">
+<meta property="article:modified_time" content="2023-04-13T13:32:18.341Z">
+<meta property="article:author" content="Beck">
+<meta property="article:tag" content="Reverse">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Beckaf/img@main/img/dog0.png">
+  
+  
+  
+  <title>记两道源代码逆向题 - Dreaming out aloud</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"beckaf.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Beck</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="记两道源代码逆向题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-13 19:07" pubdate>
+          April 13, 2023 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          16k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          138 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">记两道源代码逆向题</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>最近遇到了两个源代码逆向题（太菜了所以只能做简单题</p>
+<h1 id="b01lersCTF2023-Quine"><a href="#b01lersCTF2023-Quine" class="headerlink" title="b01lersCTF2023-Quine"></a>b01lersCTF2023-Quine</h1><h2 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c">              <span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-comment">/*firt*/</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br>           <span class="hljs-meta">#<span class="hljs-keyword">define</span><span class="hljs-comment">/*ah*/</span>      p<span class="hljs-comment">/**/</span>putchar</span><br>         <span class="hljs-meta">#<span class="hljs-keyword">define</span><span class="hljs-comment">/*??*/</span>         c<span class="hljs-comment">/*cal*/</span>char</span><br>        <span class="hljs-meta">#<span class="hljs-keyword">define</span><span class="hljs-comment">/*to*/</span>           Q(q)int*P,u\</span><br><span class="hljs-meta">        <span class="hljs-comment">/*why...*/</span>=0,           M[99999],*C\</span><br><span class="hljs-meta">        =M,*S=M+293;c           *Q=#q<span class="hljs-comment">/*am*/</span>\</span><br><span class="hljs-meta">        ,H[99999],*D=           H;<span class="hljs-comment">/*i*/</span>int(\</span><br><span class="hljs-meta">        main)(int*a,c           **b)&#123;q;&#125;<span class="hljs-comment">/**/</span></span><br><span class="hljs-comment">/*quine*/</span>Q(<span class="hljs-type">int</span>*B=M+<span class="hljs-number">549</span>;<span class="hljs-type">int</span><span class="hljs-comment">/*ahhh*/</span>l=<span class="hljs-built_in">strlen</span>(b[<span class="hljs-number">1</span>]);p(<span class="hljs-number">47</span>);<br>p(<span class="hljs-number">47</span>);<span class="hljs-keyword">for</span>(;*Q;Q++)&#123;<span class="hljs-keyword">if</span>(*Q==<span class="hljs-number">124</span>)*C++=<span class="hljs-number">10</span>;<span class="hljs-keyword">else</span><span class="hljs-comment">/*haaa*/</span><span class="hljs-keyword">if</span>(*Q<br>==<span class="hljs-number">126</span>)*C++=<span class="hljs-number">32</span>;<span class="hljs-keyword">else</span><span class="hljs-comment">/*wtf_is_this*/</span><span class="hljs-keyword">if</span>(*Q==<span class="hljs-number">33</span>)*C++=<span class="hljs-number">34</span>;<span class="hljs-keyword">else</span><br><span class="hljs-comment">/*woeira*/</span><span class="hljs-keyword">if</span>(*Q&gt;<span class="hljs-number">34</span>)*C++=*Q;*D++=*Q==<span class="hljs-number">32</span>?<span class="hljs-string">&#x27;\n&#x27;</span>:*Q;&#125;<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span><br>u=<span class="hljs-number">-0</span>;u&lt;l*<span class="hljs-number">4</span>;)p(-b[<span class="hljs-number">1</span>][u/<span class="hljs-number">4</span>]+S[u++]-S[u++]+(S[u++]^S[u++])?<br><span class="hljs-number">88</span>:<span class="hljs-number">79</span>);p(<span class="hljs-number">10</span>);<span class="hljs-comment">/*weird___*/</span><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span>*d=B;d&lt;M+<span class="hljs-number">1280</span>;)p(*d++);<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s)&quot;</span>,<span class="hljs-comment">/*progra*/</span>H+<span class="hljs-number">304</span>);<span class="hljs-keyword">return</span><span class="hljs-comment">/*UwU*/</span><span class="hljs-number">0</span>**<span class="hljs-string">&quot;^O&#123;(u4X&quot;</span><br><span class="hljs-string">&quot;z&#125;e(tiIh.p+&#125;Kj&lt;&amp;eb]0@sHecW^[.xroBCW=N3nG+r.]rGEs.UJw^&quot;</span><br><span class="hljs-string">&quot;y&#x27;tn_Qv(y;Ed&#x27;)#@q@xI1N:wH&lt;X1aT)NtMvNlcY0;+x[cQ4j9&gt;Qi2&quot;</span><br><span class="hljs-string">&quot;#Yq&amp;fR#os=ELTjS^/deJZ;EuY`#IQwKL)w&lt;N&lt;Zh,;W9X=&amp;t0zX&amp;E0&quot;</span><br><span class="hljs-string">&quot;e&lt;_3SVaLs(pXk6z-XGHTx8T/?-^`h[K0h&#125;`dD6kX:vEeC,mI5fR9k&quot;</span><br><span class="hljs-string">&quot;]&#123;;yfO0Wg/1-Z^=WyUqN5XY1g25K1sJgKzfG.~~~~~~~~~~~~~~#i&quot;</span><br><span class="hljs-string">&quot;nclude/*firt*/&lt;stdio.h&gt;|~~~~~~~~~~~#define/*ah*/~~~~~&quot;</span><br><span class="hljs-string">&quot;~p/**/putchar|~~~~~~~~~#define/*??*/~~~~~~~~~c/*cal*/&quot;</span><br><span class="hljs-string">&quot;char|~~~~~~~~#define/*to*/~~~~~~~~~~~Q(q)int*P,u\|~~~&quot;</span><br><span class="hljs-string">&quot;~~~~~/*why...*/=0,~~~~~~~~~~~M[99999],*C\|~~~~~~~~=M,&quot;</span><br><span class="hljs-string">&quot;*S=M+293;c~~~~~~~~~~~*Q=#q/*am*/\|~~~~~~~~,H[99999],*&quot;</span><br><span class="hljs-string">&quot;D=~~~~~~~~~~~H;/*i*/int(\|~~~~~~~~main)(int*a,c~~~~~~&quot;</span><br><span class="hljs-string">&quot;~~~~~**b)&#123;q;&#125;/**/|/*quine*/Q(int*B=M+549;int/*ahhh*/l&quot;</span><br><span class="hljs-string">&quot;=strlen(b[1]);p(47);|p(47);for(;*Q;Q++)&#123;if(*Q==124)*C&quot;</span><br><span class="hljs-string">&quot;++=10;else/*haaa*/if(*Q|==126)*C++=32;else/*wtf_is_th&quot;</span><br><span class="hljs-string">&quot;is*/if(*Q==33)*C++=34;else|/*woeira*/if(*Q&gt;34)*C++=*Q&quot;</span><br><span class="hljs-string">&quot;;*D++=*Q==32?&#x27;\n&#x27;:*Q;&#125;for(int|u=-0;u&lt;l*4;)p(-b[1][u/4&quot;</span><br><span class="hljs-string">&quot;]+S[u++]-S[u++]+(S[u++]^S[u++])?|88:79);p(10);/*weird&quot;</span><br><span class="hljs-string">&quot;___*/for(int*d=B;d&lt;M+1280;)p(*d++);|printf(!%s)!,/*pr&quot;</span><br><span class="hljs-string">&quot;ogra*/H+304);return/*UwU*//*quine*/Q(/*random_stuf*/&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>代码太乱了，题目好像描述是IOCCC，看着确实挺像。从题目名字能看出一些东西。</p>
+<p>Quine是指能够输出自身源代码的计算机程序。简单来说，Quine程序就是一个能够输出自己的代码的程序。</p>
+<p>手动整理代码…还是算了，让gpt帮我整理一下，顺便把ascii码换成字符</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> p putchar</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> c char</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> Q(q) int *P,u=0,M[99999],*C=M,*S=M+293;c *Q=#q,H[99999],*D=H;int(main)(int* a,c **b)&#123;q;&#125;</span><br>Q(<br><span class="hljs-type">int</span> *B = M + <span class="hljs-number">549</span>;<span class="hljs-type">int</span> l = <span class="hljs-built_in">strlen</span>(b[<span class="hljs-number">1</span>]);<br>p(<span class="hljs-string">&#x27;/&#x27;</span>);<br>p(<span class="hljs-string">&#x27;/&#x27;</span>);<br><span class="hljs-keyword">for</span> (; *Q; Q++) &#123;<br>    <span class="hljs-keyword">if</span> (*Q == <span class="hljs-string">&#x27;|&#x27;</span>)&#123;<br>        *C++ = <span class="hljs-string">&#x27;\n&#x27;</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (*Q == <span class="hljs-string">&#x27;~&#x27;</span>)&#123;<br>        *C++ = <span class="hljs-string">&#x27; &#x27;</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (*Q == <span class="hljs-string">&#x27;!&#x27;</span>)&#123;<br>        *C++ = <span class="hljs-string">&#x27;&quot;&#x27;</span>;<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (*Q &gt; <span class="hljs-string">&#x27;&quot;&#x27;</span>)&#123;<br>        *C++ = *Q;<br>    &#125;<br>    *D++ = *Q == <span class="hljs-string">&#x27; &#x27;</span> ? <span class="hljs-string">&#x27;\n&#x27;</span> : *Q;<br>&#125;<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> u = <span class="hljs-number">-0</span>; u &lt; l * <span class="hljs-number">4</span>;) &#123;<br>    p(-b[<span class="hljs-number">1</span>][u / <span class="hljs-number">4</span>] + S[u++] - S[u++] + (S[u++] ^ S[u++]) ? <span class="hljs-string">&#x27;X&#x27;</span> : <span class="hljs-string">&#x27;O&#x27;</span>);<br>&#125;<br>p(<span class="hljs-number">10</span>);<br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> *d = B; d &lt; M + <span class="hljs-number">1280</span>;)&#123;<br>    p(*d++);<br>&#125;<br><span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s)&quot;</span>,<span class="hljs-comment">/*progra*/</span>H + <span class="hljs-number">304</span>);<br><span class="hljs-keyword">return</span> <span class="hljs-number">0</span> * *<span class="hljs-string">&quot;^O&#123;(u4X&quot;</span><br><span class="hljs-string">&quot;z&#125;e(tiIh.p+&#125;Kj&lt;&amp;eb]0@sHecW^[.xroBCW=N3nG+r.]rGEs.UJw^&quot;</span><br><span class="hljs-string">&quot;y&#x27;tn_Qv(y;Ed&#x27;)#@q@xI1N:wH&lt;X1aT)NtMvNlcY0;+x[cQ4j9&gt;Qi2&quot;</span><br><span class="hljs-string">&quot;#Yq&amp;fR#os=ELTjS^/deJZ;EuY`#IQwKL)w&lt;N&lt;Zh,;W9X=&amp;t0zX&amp;E0&quot;</span><br><span class="hljs-string">&quot;e&lt;_3SVaLs(pXk6z-XGHTx8T/?-^`h[K0h&#125;`dD6kX:vEeC,mI5fR9k&quot;</span><br><span class="hljs-string">&quot;]&#123;;yfO0Wg/1-Z^=WyUqN5XY1g25K1sJgKzfG.~~~~~~~~~~~~~~#i&quot;</span><br><span class="hljs-string">&quot;nclude/*firt*/&lt;stdio.h&gt;|~~~~~~~~~~~#define/*ah*/~~~~~&quot;</span><br><span class="hljs-string">&quot;~p/**/putchar|~~~~~~~~~#define/*??*/~~~~~~~~~c/*cal*/&quot;</span><br><span class="hljs-string">&quot;char|~~~~~~~~#define/*to*/~~~~~~~~~~~Q(q)int*P,u\|~~~&quot;</span><br><span class="hljs-string">&quot;~~~~~/*why...*/=0,~~~~~~~~~~~M[99999],*C\|~~~~~~~~=M,&quot;</span><br><span class="hljs-string">&quot;*S=M+293;c~~~~~~~~~~~*Q=#q/*am*/\|~~~~~~~~,H[99999],*&quot;</span><br><span class="hljs-string">&quot;D=~~~~~~~~~~~H;/*i*/int(\|~~~~~~~~main)(int*a,c~~~~~~&quot;</span><br><span class="hljs-string">&quot;~~~~~**b)&#123;q;&#125;/**/|/*quine*/Q(int*B=M+549;int/*ahhh*/l&quot;</span><br><span class="hljs-string">&quot;=strlen(b[1]);p(47);|p(47);for(;*Q;Q++)&#123;if(*Q==124)*C&quot;</span><br><span class="hljs-string">&quot;++=10;else/*haaa*/if(*Q|==126)*C++=32;else/*wtf_is_th&quot;</span><br><span class="hljs-string">&quot;is*/if(*Q==33)*C++=34;else|/*woeira*/if(*Q&gt;34)*C++=*Q&quot;</span><br><span class="hljs-string">&quot;;*D++=*Q==32?&#x27;\n&#x27;:*Q;&#125;for(int|u=-0;u&lt;l*4;)p(-b[1][u/4&quot;</span><br><span class="hljs-string">&quot;]+S[u++]-S[u++]+(S[u++]^S[u++])?|88:79);p(10);/*weird&quot;</span><br><span class="hljs-string">&quot;___*/for(int*d=B;d&lt;M+1280;)p(*d++);|printf(!%s)!,/*pr&quot;</span><br><span class="hljs-string">&quot;ogra*/H+304);return/*UwU*//*quine*/Q(/*random_stuf*/&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>整完后就开始硬看了，但是这题当时有师傅已经做出来了，我对着解密脚本一点一点分析，发现自己的C语言也有好多不懂的地方，但还是大致把逻辑猜出来了</p>
+<h2 id="字符串化运算符"><a href="#字符串化运算符" class="headerlink" title="字符串化运算符"></a>字符串化运算符</h2><p>一元运算符 # 常称为字符串化运算符（stringify operator 或 stringizing operator），因为它会把宏调用时的实参转换为字符串。# 的操作数必须是宏替换文本中的形参。当形参名称出现在替换文本中，并且具有前缀 # 字符时，预处理器会把与该形参对应的实参放到一对双引号中，形成一个字符串字面量。</p>
+<h2 id="代码含义"><a href="#代码含义" class="headerlink" title="代码含义"></a>代码含义</h2><p><code>#define</code> 指令是用于创建预处理器宏的。它使用给定的名称 <code>Q</code> 来定义一个宏，该宏后面跟着一些代码。当代码中使用 <code>Q(arg)</code> 这个宏时，会自动被替换成 int<code>*P, u=0, M[99999],*C =M,*S=M+293; c *arg=#arg ,H[99999],*D=H; int(main)(int* a,c **b) &#123;arg;&#125;</code> 这段代码。</p>
+<p>在这个宏展开后的代码中，<code>int(main)</code> 实际上是定义了一个函数，这是程序的入口点。函数使用了指针 <code>int* a</code> 和 <code>c </code><strong><code>b</code></strong> <strong>作为参数，其中</strong> <strong><code>int\* a</code></strong> <strong>代表一个指向整数类型的指针，</strong><strong><code>c </code></strong><code>b</code> 代表一个指向字符指针的指针。</p>
+<p>在函数体中，宏 <code>Q</code> 中的 <code>arg</code> 会被替换成传递给 <code>Q</code> 宏的实际参数，在这里就是 <code>#q</code>，即宏定义时使用的字符串参数。</p>
+<h2 id="主要逻辑"><a href="#主要逻辑" class="headerlink" title="主要逻辑"></a>主要逻辑</h2><p>因此逻辑部分就在这里，很明显b是main函数的参数，通过命令行传递的字符串参数，采用了-b与后面的S进行加减运算，这里的S可以在上面定义中发现是M+293，因此，S数组是从程序最后的字符串”^O{(u4X”开始的，如果等于0，那么就是O（X可以理解为错，O可以理解为对）因此只用编写解密脚本如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> <span class="hljs-type">const</span> *argv[])</span><br>&#123;<br>        <span class="hljs-type">char</span> s[] = <span class="hljs-string">&quot;^O&#123;(u4Xz&#125;e(tiIh.p+&#125;Kj&lt;&amp;eb]0@sHecW^[.xroBCW=N3nG+r.]rGEs.UJw^y&#x27;tn_Qv(y;Ed&#x27;)#@q@xI1N:wH&lt;X1aT)NtMvNlcY0;+x[cQ4j9&gt;Qi2#Yq&amp;fR#os=ELTjS^/deJZ;EuY`#IQwKL)w&lt;N&lt;Zh,;W9X=&amp;t0zX&amp;E0e&lt;_3SVaLs(pXk6z-XGHTx8T/?-^`h[K0h&#125;`dD6kX:vEeC,mI5fR9k]&#123;;yfO0Wg/1-Z^=WyUqN5XY1g25K1sJgKzfG.&quot;</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;i&lt;<span class="hljs-built_in">strlen</span>(s)/<span class="hljs-number">4</span>;++i)&#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c&quot;</span>,(s[i*<span class="hljs-number">4</span>+<span class="hljs-number">2</span>] ^ s[i*<span class="hljs-number">4</span>+<span class="hljs-number">3</span>]) + s[i*<span class="hljs-number">4</span>] - s[i*<span class="hljs-number">4</span>+<span class="hljs-number">1</span>]);<br>        &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">//bctf&#123;qu1n3_1s_4ll_ab0ut_r3p371t10n_4nD_m4n1pul4710n_OwO_OuO_UwU&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>分析过程基本上都是靠解密脚本边分析边猜的，现在发现看源代码也好痛苦）之后看到有师傅说编译后放IDA里做的，我当时是真滴没想到，分析过程是猜的，所以如果有错欢迎指正~</p>
+<h1 id="MidnightSunCTFQuals2023-Open-Source-Software"><a href="#MidnightSunCTFQuals2023-Open-Source-Software" class="headerlink" title="MidnightSunCTFQuals2023-Open Source Software"></a>MidnightSunCTFQuals2023-Open Source Software</h1><p>第一次比赛中交题目，还是挺有意义的。我太菜了当时坐了差不多4个小时，从开始拿到代码手动整（信不过gpt）这次有经验就编译丢IDA里看了，主要把变量命名搞定就好了，然后扔IDA里看猜是用z3去解。然后就开始让gpt帮我把C代码转python，但没给我整出来，转用newbing。chatgpt？不行X，newbing行！差不多2-3h的时候z3脚本已经写完了，但改了一堆条件还无解，我就开始怀疑自我了。最后BMK师傅贴了个脚本好像也无解，我仔细对着看了下发现，我脚本里函数里if没加约束……之后改完就出来了</p>
+<h2 id="源代码-1"><a href="#源代码-1" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> FLAG</span><br><span class="hljs-meta">#<span class="hljs-keyword">error</span> <span class="hljs-string">&quot;FLAG is not defined.&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> Z3K(R2K) (((R2K)<span class="hljs-comment">/*&amp;||*/</span><span class="hljs-string">&lt;&lt;4)|((R2K)/*&amp;=|=*/&gt;</span>&gt;4))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> X1M(A9W,B8X) (((A9W)<span class="hljs-comment">/*|=*/</span>^(B8X))&amp;<span class="hljs-comment">/*~*/</span>0xff)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> Y2G(A9W,B8X) ((A9W)<span class="hljs-comment">/*&gt;&gt;*/</span>&amp;0x55)|(((B8X)&amp;<span class="hljs-comment">/*&lt;&lt;*/</span>0xaa)&gt;&gt;1)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> W4U(A9W,B8X) ((((A9W)<span class="hljs-comment">/*%*/</span>*(B8X))%<span class="hljs-comment">/*&amp;=|=*/</span>1257)&amp;0xff)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> V5H(T3S) (((T3S)<span class="hljs-comment">/*&gt;&gt;*/</span><span class="hljs-string">&lt;&lt;1)|((T3S)/*|*/&gt;</span>&gt;7))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> S6E(T3S) (((T3S)<span class="hljs-comment">/*^*/</span><span class="hljs-string">&lt;&lt;3)^((T3S)/*&amp;*/&gt;</span>&gt;5))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> D7F(A9W,B8X) (((A9W)<span class="hljs-comment">/*&lt;*/</span>&lt;&lt;4)^<span class="hljs-comment">/*~*/</span>(B8X))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> A1C(P6F,Q5G,R4H,S3I) Z3K(W4U(V5H(Z3K(Y2G(V5H(X1M(<span class="hljs-comment">/*&amp;||*/</span>P6F,Q5G)),V5H(X1M(R4H,S3I))))),Q5G)) <span class="hljs-comment">/* Function W */</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> B2D(P6F,Q5G) V5H(Z3K(X1M(P6F,Q5G)))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> C3E(P6F,Q5G) D7F(Q5G,Z3K(X1M(P6F,Q5G)))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> D4F(P6F,Q5G) ((P6F)<span class="hljs-comment">/*&amp;|*/</span>^(Q5G))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> E1I(K2L,M1N) (W4U(V5H(Z3K(K2L)),q1s)<span class="hljs-comment">/*|*/</span>==(M1N)?(++q1s):(q1s=q1s))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> F2J(K2L,M1N) (V5H(Z3K(K2L))==(M1N)?(++r8w):(r8w=r8w))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> G3K(K2L,M1N) (S6E(K2L)==(M1N)?(++s9r):(s9r=s9r))</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> T6R;<br>T6R q1s=<span class="hljs-number">1</span>,r8w=<span class="hljs-number">1</span>,s9r=<span class="hljs-number">1</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>&#123;<br>    <span class="hljs-type">const</span> <span class="hljs-type">char</span> x0f[]=FLAG;T6R N = <span class="hljs-built_in">strlen</span>(x0f);<span class="hljs-comment">/* <span class="hljs-doctag">TODO:</span> REMOVE</span><br><span class="hljs-comment">    T6R h8m[]=&#123;A1C(x0f[19],x0f[15],x0f[11],x0f[4]),A1C(x0f[3],</span><br><span class="hljs-comment">    x0f[20],x0f[10],x0f[14]),A1C(x0f[0],x0f[6],x0f[1],x0f[8]),</span><br><span class="hljs-comment">    A1C(x0f[17],x0f[13],x0f[9],x0f[23]),&#125;;T6R g7k[]=&#123;D4F(C3E(x0f[4],</span><br><span class="hljs-comment">    x0f[23]),C3E(x0f[11],x0f[18])),D4F(C3E(x0f[17],x0f[10]),C3E(x0f[12],</span><br><span class="hljs-comment">    x0f[7])),D4F(C3E(x0f[15],x0f[6]),C3E(x0f[20],x0f[1])),D4F(C3E(x0f[22],</span><br><span class="hljs-comment">    x0f[14]),C3E(x0f[5],x0f[3])),D4F(C3E(x0f[9],x0f[0]),C3E(x0f[13],</span><br><span class="hljs-comment">    x0f[16])),D4F(C3E(x0f[8],x0f[19]),C3E(x0f[5],x0f[21])),&#125;;*/</span><br>    T6R p5f[<span class="hljs-number">12</span>]=&#123;<span class="hljs-number">0x10</span>,<span class="hljs-number">0</span>,<span class="hljs-number">010</span>,<span class="hljs-number">20</span>,<span class="hljs-number">0xe</span>,<span class="hljs-number">014</span>,<span class="hljs-number">0x12</span>,<span class="hljs-number">02</span>,<span class="hljs-number">0x16</span>,<span class="hljs-number">012</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>&#125;;T6R g7k[<span class="hljs-number">6</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>    T6R h8m[<span class="hljs-number">6</span>]=&#123;<span class="hljs-number">0</span>&#125;;T6R j9n[<span class="hljs-number">12</span>]=&#123;<span class="hljs-number">0</span>&#125;;<span class="hljs-keyword">for</span>(T6R a2z=<span class="hljs-number">0</span>;a2z&lt;N;a2z+=<span class="hljs-number">4</span>)&#123;<br>    <span class="hljs-keyword">if</span>(a2z&lt;<span class="hljs-number">12</span>)&#123;j9n[p5f[a2z+<span class="hljs-number">3</span>]/<span class="hljs-number">2</span>]=B2D(x0f[p5f[a2z+<span class="hljs-number">3</span>]],x0f[p5f[a2z+<span class="hljs-number">3</span>]+<span class="hljs-number">1</span>]);<br>    g7k[a2z/<span class="hljs-number">4</span>]=D4F(C3E(x0f[a2z*<span class="hljs-number">2</span>],x0f[a2z*<span class="hljs-number">2</span>+<span class="hljs-number">2</span>]),C3E(x0f[a2z*<span class="hljs-number">2</span>+<span class="hljs-number">4</span>],x0f[a2z*<span class="hljs-number">2</span>+<span class="hljs-number">6</span>]));<br>    <span class="hljs-keyword">if</span>(a2z&lt;<span class="hljs-number">4</span>)h8m[a2z/<span class="hljs-number">4</span>]=A1C(x0f[a2z],x0f[a2z+<span class="hljs-number">4</span>],x0f[a2z+<span class="hljs-number">8</span>],x0f[a2z+<span class="hljs-number">12</span>]);<br>    g7k[(a2z/<span class="hljs-number">4</span>)+<span class="hljs-number">3</span>]= D4F(C3E(x0f[a2z*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>],x0f[a2z*<span class="hljs-number">2</span>+<span class="hljs-number">3</span>]),C3E(x0f[a2z*<span class="hljs-number">2</span>+<span class="hljs-number">5</span>],x0f[a2z*<span class="hljs-number">2</span>+<span class="hljs-number">7</span>]));<br>    j9n[p5f[a2z+<span class="hljs-number">1</span>]/<span class="hljs-number">2</span>]=B2D(x0f[p5f[a2z+<span class="hljs-number">1</span>]],x0f[p5f[a2z+<span class="hljs-number">1</span>]+<span class="hljs-number">1</span>]);<br>    j9n[p5f[a2z+<span class="hljs-number">2</span>]/<span class="hljs-number">2</span>]=B2D(x0f[p5f[a2z+<span class="hljs-number">2</span>]],x0f[p5f[a2z+<span class="hljs-number">2</span>]+<span class="hljs-number">1</span>]);<br>    <span class="hljs-keyword">if</span>(a2z==<span class="hljs-number">4</span>)h8m[<span class="hljs-number">1</span>]=A1C(x0f[<span class="hljs-number">16</span>],x0f[<span class="hljs-number">20</span>],x0f[<span class="hljs-number">1</span>],x0f[<span class="hljs-number">5</span>]);<br>    j9n[p5f[a2z]/<span class="hljs-number">2</span>]=B2D(x0f[p5f[a2z]],x0f[p5f[a2z]+<span class="hljs-number">1</span>]);&#125;<span class="hljs-keyword">else</span>&#123;<br>    <span class="hljs-keyword">if</span>(a2z&lt;<span class="hljs-number">16</span>)&#123;h8m[a2z/<span class="hljs-number">6</span>]=A1C(x0f[a2z<span class="hljs-number">-3</span>],x0f[a2z+<span class="hljs-number">1</span>],x0f[a2z+<span class="hljs-number">5</span>],x0f[a2z*<span class="hljs-number">2</span><span class="hljs-number">-3</span>]);<br>    h8m[<span class="hljs-number">3</span>]=A1C(x0f[<span class="hljs-number">2</span>],x0f[<span class="hljs-number">6</span>],x0f[<span class="hljs-number">10</span>],x0f[<span class="hljs-number">14</span>]);&#125; <br>    G3K(g7k[<span class="hljs-number">0</span>],<span class="hljs-number">0x202</span>);G3K(g7k[<span class="hljs-number">1</span>],<span class="hljs-number">0x1aa2</span>);G3K(g7k[<span class="hljs-number">2</span>],<span class="hljs-number">0x5a5</span>);&#125;&#125;<br>    h8m[<span class="hljs-number">4</span>]=A1C(x0f[s9r*<span class="hljs-number">2</span>-q1s-r8w],x0f[s9r*<span class="hljs-number">2</span>+q1s+r8w],x0f[q1s*<span class="hljs-number">3</span>],x0f[r8w*<span class="hljs-number">7</span>]);<br>    h8m[<span class="hljs-number">5</span>]=A1C(x0f[s9r+q1s],x0f[s9r+<span class="hljs-number">5</span>],x0f[s9r*<span class="hljs-number">2</span>-r8w],x0f[s9r*<span class="hljs-number">2</span>+<span class="hljs-number">3</span>]);<br>    E1I(h8m[<span class="hljs-number">0</span>],<span class="hljs-number">0x5B</span>);E1I(h8m[<span class="hljs-number">1</span>],<span class="hljs-number">13</span>);E1I(h8m[<span class="hljs-number">2</span>],<span class="hljs-number">0x5D</span>);<br>    E1I(h8m[<span class="hljs-number">3</span>],<span class="hljs-number">0244</span>);E1I(h8m[<span class="hljs-number">4</span>],<span class="hljs-number">52</span>);E1I(h8m[<span class="hljs-number">5</span>],<span class="hljs-number">0xDC</span>);<br>    F2J(j9n[<span class="hljs-number">0</span>],<span class="hljs-number">0x1010</span>);F2J(j9n[<span class="hljs-number">1</span>],<span class="hljs-number">024050</span>);F2J(j9n[<span class="hljs-number">2</span>],<span class="hljs-number">034070</span>);<br>    F2J(j9n[<span class="hljs-number">3</span>],<span class="hljs-number">28784</span>);F2J(j9n[<span class="hljs-number">4</span>],<span class="hljs-number">0x12d2d</span>);F2J(j9n[<span class="hljs-number">5</span>],<span class="hljs-number">0x10d0d</span>);<br>    F2J(j9n[<span class="hljs-number">6</span>],<span class="hljs-number">042104</span>);F2J(j9n[<span class="hljs-number">7</span>],<span class="hljs-number">012024</span>);F2J(j9n[<span class="hljs-number">8</span>],<span class="hljs-number">0xc4c4</span>);<br>    F2J(j9n[<span class="hljs-number">9</span>],<span class="hljs-number">0156334</span>);F2J(j9n[<span class="hljs-number">10</span>],<span class="hljs-number">0x16161</span>);F2J(j9n[<span class="hljs-number">11</span>],<span class="hljs-number">0270561</span>);<br>    F2J(B2D(x0f[<span class="hljs-number">20</span>],x0f[<span class="hljs-number">23</span>]),<span class="hljs-number">4112</span>);F2J(B2D(x0f[<span class="hljs-number">14</span>],x0f[<span class="hljs-number">0</span>]),<span class="hljs-number">90465</span>);<br>    G3K(g7k[<span class="hljs-number">3</span>],<span class="hljs-number">03417</span>);G3K(g7k[<span class="hljs-number">4</span>],<span class="hljs-number">0x3787</span>);G3K(g7k[<span class="hljs-number">5</span>],<span class="hljs-number">030421</span>);<br>    T6R s1d = <span class="hljs-number">0</span>;<span class="hljs-keyword">for</span> (T6R a2z=<span class="hljs-number">0</span>;a2z&lt;N;a2z++)s1d=(s1d*<span class="hljs-number">251</span>)^x0f[a2z];<br>    <span class="hljs-built_in">printf</span>((q1s==<span class="hljs-number">7</span>)&amp;&amp;(r8w==<span class="hljs-number">15</span>)&amp;&amp;(s9r==<span class="hljs-number">13</span>)&amp;&amp;(s1d==<span class="hljs-number">0x4E6F76D0</span>)?<span class="hljs-string">&quot;:)\n&quot;</span>:<span class="hljs-string">&quot;:(\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="整理后的代码"><a href="#整理后的代码" class="headerlink" title="整理后的代码"></a>整理后的代码</h2><p>我自己整的代码没保存，这是其他师傅整好的源代码，个人感觉编译后放IDA里分析比看源代码舒服</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> FLAG <span class="hljs-string">&quot;flag&#123;this_is_test_flag&#125;&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">ifndef</span> FLAG</span><br><span class="hljs-meta">#<span class="hljs-keyword">error</span> <span class="hljs-string">&quot;FLAG is not defined.&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">endif</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> calc_1(x) (((x)<span class="hljs-string">&lt;&lt;4)|((x)&gt;</span>&gt;4))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> calc_2(x,y) (((x)^(y))&amp;0xff)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> calc_3(x,y) ((x)&amp;0x55)|(((y)&amp;0xaa)&gt;&gt;1)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> calc_4(x,y) ((((x)*(y))%1257)&amp;0xff)</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> calc_5(x) (((x)<span class="hljs-string">&lt;&lt;1)|((x)&gt;</span>&gt;7))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> calc_6(x) (((x)<span class="hljs-string">&lt;&lt;3)^((x)&gt;</span>&gt;5))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> calc_7(x,y) (((x)&lt;&lt;4)^(y))</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> fun_1(a,b,c,d) calc_1(calc_4(calc_5(calc_1(calc_3(calc_5(calc_2(a,b)),calc_5(calc_2(c,d))))),b))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> fun_2(a,b) calc_5(calc_1(calc_2(a,b)))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> fun_3(a,b) calc_7(b,calc_1(calc_2(a,b)))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> fun_4(a,b) ((a)^(b))</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> check_a(a,b) (calc_4(calc_5(calc_1(a)),q1s)==(b)?(++q1s):(q1s=q1s))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> check_b(a,b) (calc_5(calc_1(a))==(b)?(++r8w):(r8w=r8w))</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> check_c(a,b) (calc_6(a)==(b)?(++s9r):(s9r=s9r))</span><br><br><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> q1s=<span class="hljs-number">1</span>,r8w=<span class="hljs-number">1</span>,s9r=<span class="hljs-number">1</span>;<br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>&#123;<br>    <span class="hljs-type">const</span> <span class="hljs-type">char</span> flag[]=FLAG;<br>	<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> N = <span class="hljs-built_in">strlen</span>(flag);	<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> index_arr[<span class="hljs-number">12</span>]=&#123;<span class="hljs-number">0x10</span>,<span class="hljs-number">0</span>,<span class="hljs-number">010</span>,<span class="hljs-number">20</span>,<span class="hljs-number">0xe</span>,<span class="hljs-number">014</span>,<span class="hljs-number">0x12</span>,<span class="hljs-number">02</span>,<span class="hljs-number">0x16</span>,<span class="hljs-number">012</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>&#125;;<br>	<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> data_1[<span class="hljs-number">6</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> data_2[<span class="hljs-number">6</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>	<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> data_3[<span class="hljs-number">12</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>	<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;N;i+=<span class="hljs-number">4</span>)&#123;<br>		<span class="hljs-keyword">if</span>(i&lt;<span class="hljs-number">12</span>)&#123;<br>			data_3[index_arr[i+<span class="hljs-number">3</span>]/<span class="hljs-number">2</span>]=fun_2(flag[index_arr[i+<span class="hljs-number">3</span>]],flag[index_arr[i+<span class="hljs-number">3</span>]+<span class="hljs-number">1</span>]);<br>			data_1[i/<span class="hljs-number">4</span>]=fun_4(fun_3(flag[i*<span class="hljs-number">2</span>],flag[i*<span class="hljs-number">2</span>+<span class="hljs-number">2</span>]),fun_3(flag[i*<span class="hljs-number">2</span>+<span class="hljs-number">4</span>],flag[i*<span class="hljs-number">2</span>+<span class="hljs-number">6</span>]));<br>			<span class="hljs-keyword">if</span>(i&lt;<span class="hljs-number">4</span>)<br>				data_2[i/<span class="hljs-number">4</span>]=fun_1(flag[i],flag[i+<span class="hljs-number">4</span>],flag[i+<span class="hljs-number">8</span>],flag[i+<span class="hljs-number">12</span>]);<br>			data_1[(i/<span class="hljs-number">4</span>)+<span class="hljs-number">3</span>]= fun_4(fun_3(flag[i*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>],flag[i*<span class="hljs-number">2</span>+<span class="hljs-number">3</span>]),fun_3(flag[i*<span class="hljs-number">2</span>+<span class="hljs-number">5</span>],flag[i*<span class="hljs-number">2</span>+<span class="hljs-number">7</span>]));<br>			data_3[index_arr[i+<span class="hljs-number">1</span>]/<span class="hljs-number">2</span>]=fun_2(flag[index_arr[i+<span class="hljs-number">1</span>]],flag[index_arr[i+<span class="hljs-number">1</span>]+<span class="hljs-number">1</span>]);<br>			data_3[index_arr[i+<span class="hljs-number">2</span>]/<span class="hljs-number">2</span>]=fun_2(flag[index_arr[i+<span class="hljs-number">2</span>]],flag[index_arr[i+<span class="hljs-number">2</span>]+<span class="hljs-number">1</span>]);<br>			<span class="hljs-keyword">if</span>(i==<span class="hljs-number">4</span>)<br>				data_2[<span class="hljs-number">1</span>]=fun_1(flag[<span class="hljs-number">16</span>],flag[<span class="hljs-number">20</span>],flag[<span class="hljs-number">1</span>],flag[<span class="hljs-number">5</span>]);<br>			data_3[index_arr[i]/<span class="hljs-number">2</span>]=fun_2(flag[index_arr[i]],flag[index_arr[i]+<span class="hljs-number">1</span>]);<br>		&#125;<span class="hljs-keyword">else</span>&#123;<br>			<span class="hljs-keyword">if</span>(i&lt;<span class="hljs-number">16</span>)&#123;<br>				data_2[i/<span class="hljs-number">6</span>]=fun_1(flag[i<span class="hljs-number">-3</span>],flag[i+<span class="hljs-number">1</span>],flag[i+<span class="hljs-number">5</span>],flag[i*<span class="hljs-number">2</span><span class="hljs-number">-3</span>]);<br>				data_2[<span class="hljs-number">3</span>]=fun_1(flag[<span class="hljs-number">2</span>],flag[<span class="hljs-number">6</span>],flag[<span class="hljs-number">10</span>],flag[<span class="hljs-number">14</span>]);<br>			&#125; <br>			check_c(data_1[<span class="hljs-number">0</span>],<span class="hljs-number">0x202</span>);<br>			check_c(data_1[<span class="hljs-number">1</span>],<span class="hljs-number">0x1aa2</span>);<br>			check_c(data_1[<span class="hljs-number">2</span>],<span class="hljs-number">0x5a5</span>);<br>		&#125;<br>	&#125;<br>	<br>    data_2[<span class="hljs-number">4</span>]=fun_1(flag[s9r*<span class="hljs-number">2</span>-q1s-r8w],flag[s9r*<span class="hljs-number">2</span>+q1s+r8w],flag[q1s*<span class="hljs-number">3</span>],flag[r8w*<span class="hljs-number">7</span>]);<br>    data_2[<span class="hljs-number">5</span>]=fun_1(flag[s9r+q1s],flag[s9r+<span class="hljs-number">5</span>],flag[s9r*<span class="hljs-number">2</span>-r8w],flag[s9r*<span class="hljs-number">2</span>+<span class="hljs-number">3</span>]);<br>	<br>    check_a(data_2[<span class="hljs-number">0</span>],<span class="hljs-number">0x5B</span>);<br>	check_a(data_2[<span class="hljs-number">1</span>],<span class="hljs-number">13</span>);<br>	check_a(data_2[<span class="hljs-number">2</span>],<span class="hljs-number">0x5D</span>);<br>    check_a(data_2[<span class="hljs-number">3</span>],<span class="hljs-number">0244</span>);<br>	check_a(data_2[<span class="hljs-number">4</span>],<span class="hljs-number">52</span>);<br>	check_a(data_2[<span class="hljs-number">5</span>],<span class="hljs-number">0xDC</span>);<br>	<br>    check_b(data_3[<span class="hljs-number">0</span>],<span class="hljs-number">0x1010</span>);<br>	check_b(data_3[<span class="hljs-number">1</span>],<span class="hljs-number">024050</span>);<br>	check_b(data_3[<span class="hljs-number">2</span>],<span class="hljs-number">034070</span>);<br>    check_b(data_3[<span class="hljs-number">3</span>],<span class="hljs-number">28784</span>);<br>	check_b(data_3[<span class="hljs-number">4</span>],<span class="hljs-number">0x12d2d</span>);<br>	check_b(data_3[<span class="hljs-number">5</span>],<span class="hljs-number">0x10d0d</span>);<br>    check_b(data_3[<span class="hljs-number">6</span>],<span class="hljs-number">042104</span>);<br>	check_b(data_3[<span class="hljs-number">7</span>],<span class="hljs-number">012024</span>);<br>	check_b(data_3[<span class="hljs-number">8</span>],<span class="hljs-number">0xc4c4</span>);<br>    check_b(data_3[<span class="hljs-number">9</span>],<span class="hljs-number">0156334</span>);<br>	check_b(data_3[<span class="hljs-number">10</span>],<span class="hljs-number">0x16161</span>);<br>	check_b(data_3[<span class="hljs-number">11</span>],<span class="hljs-number">0270561</span>);<br>    check_b(fun_2(flag[<span class="hljs-number">20</span>],flag[<span class="hljs-number">23</span>]),<span class="hljs-number">4112</span>);<br>	check_b(fun_2(flag[<span class="hljs-number">14</span>],flag[<span class="hljs-number">0</span>]),<span class="hljs-number">90465</span>);<br>	<br>    check_c(data_1[<span class="hljs-number">3</span>],<span class="hljs-number">03417</span>);<br>	check_c(data_1[<span class="hljs-number">4</span>],<span class="hljs-number">0x3787</span>);<br>	check_c(data_1[<span class="hljs-number">5</span>],<span class="hljs-number">030421</span>);<br>	<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> s1d = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> i=<span class="hljs-number">0</span>;i&lt;N;i++)<br>		s1d=(s1d*<span class="hljs-number">251</span>)^flag[i];<br>	<br>    <span class="hljs-built_in">printf</span>((q1s==<span class="hljs-number">7</span>)&amp;&amp;(r8w==<span class="hljs-number">15</span>)&amp;&amp;(s9r==<span class="hljs-number">13</span>)&amp;&amp;(s1d==<span class="hljs-number">0x4E6F76D0</span>)?<span class="hljs-string">&quot;:)\n&quot;</span>:<span class="hljs-string">&quot;:(\n&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="z3求解"><a href="#z3求解" class="headerlink" title="z3求解"></a>z3求解</h2><p>宏定义里是一些位运算，check函数和最后判断一些等式，猜测用z3</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> z3 <span class="hljs-keyword">import</span>*<br><br>apple = <span class="hljs-number">1</span><br>banana = <span class="hljs-number">1</span><br>cherry = <span class="hljs-number">1</span><br><br>s = Solver()<br>data = [<span class="hljs-number">0x00000010</span>, <span class="hljs-number">0x00000000</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000014</span>, <span class="hljs-number">0x0000000E</span>, <span class="hljs-number">0x0000000C</span>, <span class="hljs-number">0x00000012</span>, <span class="hljs-number">0x00000002</span>, <span class="hljs-number">0x00000016</span>, <span class="hljs-number">0x0000000A</span>, <span class="hljs-number">0x00000006</span>, <span class="hljs-number">0x00000004</span>]<br><br>flag = [BitVec(<span class="hljs-string">&#x27;%d&#x27;</span> % i,<span class="hljs-number">32</span>)<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">24</span>)]<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">24</span>):<br>    s.add(flag[i] &lt;<span class="hljs-number">127</span>)<br>    s.add(flag[i] &gt;=<span class="hljs-number">32</span>)<br>    <br><span class="hljs-comment"># midnight&#123;&#125;</span><br><span class="hljs-comment"># s.add(flag[0] == 0x6d)</span><br><span class="hljs-comment"># s.add(flag[1] == 0x69)</span><br><span class="hljs-comment"># s.add(flag[2] == 0x64)</span><br><span class="hljs-comment"># s.add(flag[3] == 0x6e)</span><br><span class="hljs-comment"># s.add(flag[4] == 0x69)</span><br><span class="hljs-comment"># s.add(flag[5] == 0x67)</span><br><span class="hljs-comment"># s.add(flag[6] == 0x68)</span><br><span class="hljs-comment"># s.add(flag[7] == 0x74)</span><br><span class="hljs-comment"># s.add(flag[8] == 0x7b)</span><br><span class="hljs-comment"># s.add(flag[23] == 0x7d)</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calc_1</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> ((x &lt;&lt; <span class="hljs-number">4</span>) | (x &gt;&gt; <span class="hljs-number">4</span>))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calc_2</span>(<span class="hljs-params">x, y</span>):<br>    <span class="hljs-keyword">return</span> ((x ^ y) &amp; <span class="hljs-number">0xff</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calc_3</span>(<span class="hljs-params">x, y</span>):<br>    <span class="hljs-keyword">return</span> ((x &amp; <span class="hljs-number">0x55</span>) | ((y &amp; <span class="hljs-number">0xaa</span>) &gt;&gt; <span class="hljs-number">1</span>))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calc_4</span>(<span class="hljs-params">x, y</span>):<br>    <span class="hljs-keyword">return</span> (((x * y) % <span class="hljs-number">1257</span>) &amp; <span class="hljs-number">0xff</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calc_5</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> ((x &lt;&lt; <span class="hljs-number">1</span>) | (x &gt;&gt; <span class="hljs-number">7</span>))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calc_6</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> ((x &lt;&lt; <span class="hljs-number">3</span>) ^ (x &gt;&gt; <span class="hljs-number">5</span>))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calc_7</span>(<span class="hljs-params">x, y</span>):<br>    <span class="hljs-keyword">return</span> ((x &lt;&lt; <span class="hljs-number">4</span>) ^ y)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">func_1</span>(<span class="hljs-params">a, b, c, d</span>):<br>    <span class="hljs-keyword">return</span> calc_1(calc_4(calc_5(calc_1(calc_3(calc_5(calc_2(a,b)),calc_5(calc_2(c,d))))),b))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">func_2</span>(<span class="hljs-params">a, b</span>):<br>    <span class="hljs-keyword">return</span> calc_5(calc_1(calc_2(a,b)))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">func_3</span>(<span class="hljs-params">a, b</span>):<br>    <span class="hljs-keyword">return</span> calc_7(b,calc_1(calc_2(a,b)))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">func_4</span>(<span class="hljs-params">a, b</span>):<br>    <span class="hljs-keyword">return</span> (a ^ b)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">check_a</span>(<span class="hljs-params">a,b</span>):<br>    <span class="hljs-keyword">global</span> apple<br>    s.add(calc_4(calc_5(calc_1(a)),apple) == b)<br>    apple += <span class="hljs-number">1</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">check_b</span>(<span class="hljs-params">a,b</span>):<br>    <span class="hljs-keyword">global</span> banana<br>    s.add(calc_5(calc_1(a)) == b)<br>    banana += <span class="hljs-number">1</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">check_c</span>(<span class="hljs-params">a,b</span>):<br>    <span class="hljs-keyword">global</span> cherry<br>    s.add(calc_6(a) == b)<br>    cherry += <span class="hljs-number">1</span><br>    <br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    input_len = <span class="hljs-number">24</span><br>    array_1st = [<span class="hljs-number">0</span>] * <span class="hljs-number">6</span><br>    array_2nd = [<span class="hljs-number">0</span>] * <span class="hljs-number">6</span><br>    array_3rd = [<span class="hljs-number">0</span>] * <span class="hljs-number">12</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, input_len, <span class="hljs-number">4</span>):<br>        <span class="hljs-keyword">if</span> i &lt; <span class="hljs-number">12</span>:<br>            array_3rd[data[i + <span class="hljs-number">3</span>] // <span class="hljs-number">2</span>] = func_2(flag[data[i + <span class="hljs-number">3</span>]], flag[data[i + <span class="hljs-number">3</span>] + <span class="hljs-number">1</span>])<br>            array_1st[i // <span class="hljs-number">4</span>] = func_4(func_3(flag[i * <span class="hljs-number">2</span>], flag[i * <span class="hljs-number">2</span> + <span class="hljs-number">2</span>]), func_3(flag[i * <span class="hljs-number">2</span> + <span class="hljs-number">4</span>], flag[i * <span class="hljs-number">2</span> + <span class="hljs-number">6</span>]))<br>            <span class="hljs-keyword">if</span> i &lt; <span class="hljs-number">4</span>:<br>                array_2nd[i // <span class="hljs-number">4</span>] = func_1(flag[i], flag[i + <span class="hljs-number">4</span>], flag[i + <span class="hljs-number">8</span>], flag[i + <span class="hljs-number">12</span>])<br>            array_1st[(i // <span class="hljs-number">4</span>) + <span class="hljs-number">3</span>] = func_4(func_3(flag[i * <span class="hljs-number">2</span> + <span class="hljs-number">1</span>], flag[i * <span class="hljs-number">2</span> + <span class="hljs-number">3</span>]), func_3(flag[i * <span class="hljs-number">2</span> +<span class="hljs-number">5</span>], flag[i *<span class="hljs-number">2</span>+<span class="hljs-number">7</span>]))<br>            array_3rd[data[i+<span class="hljs-number">1</span>]//<span class="hljs-number">2</span>]=func_2(flag[data[i+<span class="hljs-number">1</span>]],flag[data[i+<span class="hljs-number">1</span>]+<span class="hljs-number">1</span>])<br>            array_3rd[data[i+<span class="hljs-number">2</span>]//<span class="hljs-number">2</span>]=func_2(flag[data[i+<span class="hljs-number">2</span>]],flag[data[i+<span class="hljs-number">2</span>]+<span class="hljs-number">1</span>])<br>            <span class="hljs-keyword">if</span> i==<span class="hljs-number">4</span>:<br>                array_2nd[<span class="hljs-number">1</span>]=func_1(flag[<span class="hljs-number">16</span>],flag[<span class="hljs-number">20</span>],flag[<span class="hljs-number">1</span>],flag[<span class="hljs-number">5</span>])<br>            array_3rd[data[i]//<span class="hljs-number">2</span>]=func_2(flag[data[i]],flag[data[i]+<span class="hljs-number">1</span>])<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">if</span> i&lt;<span class="hljs-number">16</span>:<br>                array_2nd[i//<span class="hljs-number">6</span>]=func_1(flag[i-<span class="hljs-number">3</span>],flag[i+<span class="hljs-number">1</span>],flag[i+<span class="hljs-number">5</span>],flag[i*<span class="hljs-number">2</span>-<span class="hljs-number">3</span>])<br>                array_2nd[<span class="hljs-number">3</span>]=func_1(flag[<span class="hljs-number">2</span>],flag[<span class="hljs-number">6</span>],flag[<span class="hljs-number">10</span>],flag[<span class="hljs-number">14</span>])<br>            check_c(array_1st[<span class="hljs-number">0</span>],<span class="hljs-number">0x202</span>)<br>            check_c(array_1st[<span class="hljs-number">1</span>],<span class="hljs-number">0x1aa2</span>)<br>            check_c(array_1st[<span class="hljs-number">2</span>],<span class="hljs-number">0x5a5</span>)<br><br>    array_2nd[<span class="hljs-number">4</span>]=func_1(flag[cherry*<span class="hljs-number">2</span>-apple-banana],flag[cherry*<span class="hljs-number">2</span>+apple+banana],flag[apple*<span class="hljs-number">3</span>],flag[banana*<span class="hljs-number">7</span>])<br>    array_2nd[<span class="hljs-number">5</span>]=func_1(flag[cherry+apple],flag[cherry+<span class="hljs-number">5</span>],flag[cherry*<span class="hljs-number">2</span>-banana],flag[cherry*<span class="hljs-number">2</span>+<span class="hljs-number">3</span>])<br>    <br>    check_a(array_2nd[<span class="hljs-number">0</span>],<span class="hljs-number">0x5B</span>)<br>    check_a(array_2nd[<span class="hljs-number">1</span>],<span class="hljs-number">0xD</span>)<br>    check_a(array_2nd[<span class="hljs-number">2</span>],<span class="hljs-number">0x5D</span>)<br>    check_a(array_2nd[<span class="hljs-number">3</span>],<span class="hljs-number">0XA4</span>)<br>    check_a(array_2nd[<span class="hljs-number">4</span>],<span class="hljs-number">0X34</span>)<br>    check_a(array_2nd[<span class="hljs-number">5</span>],<span class="hljs-number">0xDC</span>)<br><br>    check_b(array_3rd[<span class="hljs-number">0</span>],<span class="hljs-number">0x1010</span>)<br>    check_b(array_3rd[<span class="hljs-number">1</span>],<span class="hljs-number">0x2828</span>)<br>    check_b(array_3rd[<span class="hljs-number">2</span>],<span class="hljs-number">0x3838</span>)<br>    check_b(array_3rd[<span class="hljs-number">3</span>],<span class="hljs-number">0x7070</span>)<br>    check_b(array_3rd[<span class="hljs-number">4</span>],<span class="hljs-number">0x12d2d</span>)<br>    check_b(array_3rd[<span class="hljs-number">5</span>],<span class="hljs-number">0x10d0d</span>)<br>    check_b(array_3rd[<span class="hljs-number">6</span>],<span class="hljs-number">0x4444</span>)<br>    check_b(array_3rd[<span class="hljs-number">7</span>],<span class="hljs-number">0x1414</span>)<br>    check_b(array_3rd[<span class="hljs-number">8</span>],<span class="hljs-number">0xc4c4</span>)<br>    check_b(array_3rd[<span class="hljs-number">9</span>],<span class="hljs-number">0xDCDC</span>)<br>    check_b(array_3rd[<span class="hljs-number">10</span>],<span class="hljs-number">0x16161</span>)<br>    check_b(array_3rd[<span class="hljs-number">11</span>],<span class="hljs-number">0x17171</span>)<br>    <br>    check_b(func_2(flag[<span class="hljs-number">20</span>],flag[<span class="hljs-number">23</span>]),<span class="hljs-number">0x1010</span>)<br>    check_b(func_2(flag[<span class="hljs-number">14</span>],flag[<span class="hljs-number">0</span>]),<span class="hljs-number">0x16161</span>)<br>    <br>    check_c(array_1st[<span class="hljs-number">3</span>],<span class="hljs-number">0x70F</span>)<br>    check_c(array_1st[<span class="hljs-number">4</span>],<span class="hljs-number">0x3787</span>)<br>    check_c(array_1st[<span class="hljs-number">5</span>],<span class="hljs-number">0x3111</span>)<br><br>    check = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(input_len):<br>        check = (check * <span class="hljs-number">251</span>) ^ flag[i]<br>    <br>    s.add(apple == <span class="hljs-number">7</span>)<br>    s.add(banana == <span class="hljs-number">15</span>)<br>    s.add(cherry == <span class="hljs-number">13</span>)<br>    s.add(check == <span class="hljs-number">0x4E6F76D0</span>)<br><br>    <span class="hljs-built_in">print</span>(s.check())<br><br>    <span class="hljs-keyword">if</span>(s.check() == sat):<br>        fin = s.model()<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;&#x27;</span>.join([<span class="hljs-built_in">chr</span>(fin[x].as_long()) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> flag]))<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;no ans&quot;</span>)<br><span class="hljs-comment">#midnight&#123;0p3N_50rCeRy!!&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>感觉文章废话有些多了）以后改正</p>
+<p>也争取以后能多出题</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Beckaf/img@main/img/dog0.png" srcset="/img/loading.gif" lazyload alt="dog0"> </p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTF/" class="category-chain-item">CTF</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Reverse/">#Reverse</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>记两道源代码逆向题</div>
+      <div>https://beckaf.github.io/2023/04/13/code/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Beck</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>April 13, 2023</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="external" style="color:#00bfff;"><u>CC BY-NC-SA 4.0</u></a> 许可协议。转载请注明出处！
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/13/about_the_blog/" title="About the blog">
+                        <span class="hidden-mobile">About the blog</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'Beckaf/Beckaf.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
