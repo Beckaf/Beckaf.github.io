@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>B♭</title>
+    <link href="/2023/05/05/what_to_do_next/"/>
+    <url>/2023/05/05/what_to_do_next/</url>
+    
+    <content type="html"><![CDATA[<h1 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h1><p>五一过完了，回家休息的几天也在做题，下次放假应该就要到期末结束了。</p><p>快一个月没有更新博客，当然不是忘记掉了，而是自己没有收获到什么。CTF比赛很多，一个接着一个形成了如此过程：参与-看题-不会-摆烂。少了复盘的过程，那么不会的还是不会，又怎么会有收获呢？所以要找时间把最近比赛的题目复现学习。</p><p>最近打的比赛发现，Rev写python脚本解题的需求越来越多了，一开始以为C语言写个简单解密就够了，后来发现会的越多不会的更多，我能写出来z3解题脚本已经很不容易了）还见到要写脚本从程序中提取内容，就是那种有很多重复结构，手动绝对折磨人，还有很多我不知道的用途。。。</p><p>现况比较不乐观，大概是习惯摆烂，稍微做点事就感觉累）导致这学期应该做的任务，无限的向后堆积，之后的一段时间要打比赛，要复盘，要学操作系统，还要保证期末在不挂科的基础上尽可能分高（我真的学不会数学），希望这些都能完成。</p><img src="https://cdn.jsdelivr.net/gh/Beckaf/img@main/img/sleep_megumi.png" alt="sleep_megumi" style="zoom: 80%;" /> <p>深夜写的，日常emo。说实话保持良好作息也挺重要，争取实现。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>informal essay</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>informal essay</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>记两道源代码逆向题</title>
     <link href="/2023/04/13/code/"/>
     <url>/2023/04/13/code/</url>
